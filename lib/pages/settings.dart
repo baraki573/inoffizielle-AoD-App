@@ -56,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     }
   }
 
-  bool handleKeyPlayerSettings(FocusNode focusNode, RawKeyEvent event){
+  KeyEventResult handleKeyPlayerSettings(FocusNode focusNode, RawKeyEvent event){
     if(Platform.isAndroid && event.data is RawKeyEventDataAndroid && event.runtimeType == RawKeyUpEvent){
       RawKeyEventDataAndroid eventData = event.data;
       print(playerSettingsFocusIndex);
@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           if(playerSettingsFocusIndex > 3){
             playerSettingsFocusIndex = 0;
             FocusScope.of(context).requestFocus(menuBarFocusNodes.first);
-            return true;
+            return KeyEventResult.handled;
           }
           break;
         case KEY_RIGHT:
@@ -80,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           appSettingsFocusIndex = 0;
           this._controller.animateTo(0);
           FocusScope.of(context).requestFocus(appSettingsFocusNodes.first);
-          return true;
+          return KeyEventResult.handled;
         case KEY_CENTER:
           switch(playerSettingsFocusIndex){
             case 0:
@@ -96,17 +96,17 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               }else{
                 this._qualityDropdownOpen = false;
               }
-              return false;
+              return KeyEventResult.ignored;
             case 2:
               setState(() {
                 settings.playerSettings.setSaveEpisodeProgress(!settings.playerSettings.saveEpisodeProgress);
               });
-              return false;
+              return KeyEventResult.ignored;
             case 3:
               setState(() {
                 settings.playerSettings.setVolumeControls(!settings.playerSettings.volumeControls);
               });
-              return false;
+              return KeyEventResult.ignored;
           }
           break;
         case KEY_BACK:
@@ -118,16 +118,16 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
             appSettingsFocusIndex = 0;
             playerSettingsFocusIndex = 0;
           });
-          return true;
+          return KeyEventResult.handled;
       }
       FocusScope.of(context).requestFocus(
           playerSettingsFocusNodes[playerSettingsFocusIndex]
       );
     }
-    return true;
+    return KeyEventResult.handled;
   }
 
-  bool handleKeyAppSettings(FocusNode focusNode, RawKeyEvent event){
+  KeyEventResult handleKeyAppSettings(FocusNode focusNode, RawKeyEvent event){
     if(Platform.isAndroid && event.data is RawKeyEventDataAndroid && event.runtimeType == RawKeyUpEvent){
       RawKeyEventDataAndroid eventData = event.data;
       switch(eventData.keyCode){
@@ -142,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           if(appSettingsFocusIndex > 3){
             appSettingsFocusIndex = 0;
             FocusScope.of(context).requestFocus(menuBarFocusNodes.first);
-            return true;
+            return KeyEventResult.handled;
           }
           break;
         case KEY_RIGHT:
@@ -150,7 +150,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           playerSettingsFocusIndex = 0;
           this._controller.animateTo(1);
           FocusScope.of(context).requestFocus(playerSettingsFocusNodes.first);
-          return true;
+          return KeyEventResult.handled;
         case KEY_CENTER:
           switch(appSettingsFocusIndex){
             case 0:
@@ -162,13 +162,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               logout().then((_){
                 Navigator.pushReplacementNamed(context, '/base');
               });
-              return true;
+              return KeyEventResult.handled;
             case 2:
               Navigator.pushNamed(context, '/about');
-              return true;
+              return KeyEventResult.handled;
             case 3:
               Navigator.pushNamed(context, '/updates');
-              return true;
+              return KeyEventResult.handled;
           }
           break;
         case KEY_BACK:
@@ -180,13 +180,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           });
           appSettingsFocusIndex = 0;
           playerSettingsFocusIndex = 0;
-          return true;
+          return KeyEventResult.handled;
       }
       FocusScope.of(context).requestFocus(
           appSettingsFocusNodes[appSettingsFocusIndex]
       );
     }
-    return true;
+    return KeyEventResult.handled;
   }
 
   @override
@@ -198,6 +198,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       ),
       appBar: AppBar(
         title: Text('Einstellungen'),
+        backgroundColor: Theme.of(context).primaryColor,
         bottom: TabBar(
           controller: this._controller,
           unselectedLabelColor: Colors.white,

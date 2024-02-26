@@ -38,7 +38,7 @@ class PlayerConnectionErrorDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       elevation: 0.0,
-      backgroundColor: Colors.transparent,
+      backgroundColor:Theme.of(context).primaryColor,
       child:
       Container(
           padding: EdgeInsets.only(

@@ -24,7 +24,7 @@ class UpdatesPage extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 }
-                return true;
+                return KeyEventResult.handled;
               }
           ),
           onPressed: () {

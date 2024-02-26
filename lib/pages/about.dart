@@ -23,7 +23,7 @@ class AboutPage extends StatelessWidget {
                   Navigator.pop(context);
                 }
               }
-              return true;
+              return KeyEventResult.handled;
             }
           ),
           onPressed: () {
@@ -87,6 +87,27 @@ class AboutPage extends StatelessWidget {
               padding: EdgeInsets.all(5),
               child: Text(
                 'Tami',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text(
+                'Modified by:',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text(
+                'Baraki',
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17

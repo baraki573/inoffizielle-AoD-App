@@ -38,7 +38,7 @@ class _AnimesWidgetState extends State<AnimesWidget> {
     ));
   }
 
-  bool handleKey(FocusNode focusNode, RawKeyEvent event){
+  KeyEventResult handleKey(FocusNode focusNode, RawKeyEvent event){
     if( Platform.isAndroid && event.data is RawKeyEventDataAndroid && event.runtimeType == RawKeyUpEvent ){
       RawKeyEventDataAndroid eventDataAndroid = event.data;
       FocusScopeNode scope = FocusScope.of(context);
@@ -48,7 +48,7 @@ class _AnimesWidgetState extends State<AnimesWidget> {
           if(this._animeFocusIndex >= searchResult.length){
             //this._animeFocusIndex = this.animeFocusNodes.length - this._animeFocusIndex;
             FocusScope.of(context).requestFocus(menuBarFocusNodes.first);
-            return true;
+            return KeyEventResult.handled;
           }
           scope.requestFocus(
               this.animeFocusNodes[this._animeFocusIndex]
@@ -70,7 +70,7 @@ class _AnimesWidgetState extends State<AnimesWidget> {
           if(this._animeFocusIndex >= searchResult.length){
             //this._animeFocusIndex = 0;
             FocusScope.of(context).requestFocus(menuBarFocusNodes.first);
-            return true;
+            return KeyEventResult.handled;
           }
           scope.requestFocus(
               this.animeFocusNodes[this._animeFocusIndex]
@@ -93,10 +93,10 @@ class _AnimesWidgetState extends State<AnimesWidget> {
           });
           this._animeFocusIndex = 0;
           this._scrollController.jumpTo(0);
-          return true;
+          return KeyEventResult.handled;
         case KEY_BACK:
           exit(0);
-          return true;
+          return KeyEventResult.handled;
         case KEY_CENTER:
           Navigator.pushNamed(
               context,
@@ -108,7 +108,7 @@ class _AnimesWidgetState extends State<AnimesWidget> {
           (this.animeFocusNodes.indexOf(scope.focusedChild) / 4).floor() * scope.focusedChild.size.height,
       );
     }
-    return true;
+    return KeyEventResult.handled;
   }
 
   onTextInput(){

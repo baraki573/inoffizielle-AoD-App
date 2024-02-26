@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  bool handleKeyEvent(FocusNode focusNode, RawKeyEvent keyEvent){
+  KeyEventResult handleKeyEvent(FocusNode focusNode, RawKeyEvent keyEvent){
     if( Platform.isAndroid && keyEvent.data is RawKeyEventDataAndroid && keyEvent.runtimeType == RawKeyUpEvent ){
       RawKeyEventDataAndroid keyEventData = keyEvent.data;
       bool positionChanged = false;
@@ -163,10 +163,10 @@ class _HomePageState extends State<HomePage> {
           });
           this.rowIndex = 0;
           this.itemIndex = 0;
-          return true;
+          return KeyEventResult.handled;
         case KEY_BACK:
           exit(0);
-          return true;
+          return KeyEventResult.handled;
       }
       if(positionChanged){
         FocusScope.of(context).requestFocus(this.getRowList()[this.itemIndex]);
@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
         controller.jumpTo(elementWidth*this.itemIndex);
       }
     }
-    return true;
+    return KeyEventResult.handled;
   }
 
   void generateFocusNodes(){
@@ -223,12 +223,13 @@ class _HomePageState extends State<HomePage> {
         autofocus: true,
         onKey: (RawKeyEvent event){
           if(this.mainFocusNode.hasPrimaryFocus){
-            FocusScope.of(context).requestFocus(this._newEpisodesFocusNodes.first);
+            //FocusScope.of(context).requestFocus(this._newEpisodesFocusNodes.first);
           }
         },
         child: Scaffold(
             appBar: AppBar(
               title: Text('Startseite'),
+              backgroundColor: Theme.of(context).primaryColor,
             ),
             bottomNavigationBar: NavigationBarCustom(this._newEpisodesFocusNodes.first),
             //drawer: DrawerWidget(),

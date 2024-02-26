@@ -298,7 +298,7 @@ class PlayerState extends State<PlayerWidget> {
               onKey: (focusNode, RawKeyEvent event){
                 print('Tastendruck');
 
-                return true;
+                return KeyEventResult.handled;
               }
           ),
           onKey: (RawKeyEvent event){
@@ -540,6 +540,7 @@ class PlayerState extends State<PlayerWidget> {
   @override
   void dispose() {
     //playerCache.updateThread.kill(priority: 0);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     widget.receivePort.close();
     super.dispose();
   }

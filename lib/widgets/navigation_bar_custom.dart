@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unoffical_aod_app/caches/focusnode.dart';
 import 'package:unoffical_aod_app/caches/keycodes.dart';
 import 'package:unoffical_aod_app/widgets/navigation_element.dart';
@@ -35,7 +36,7 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
 
   void generateFocusNodes(){
     menuBarFocusNodes.clear();
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 4; i++){
       menuBarFocusNodes.add(
           FocusNode(
               onKey: handleKeys
@@ -44,14 +45,14 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
     }
   }
 
-  bool handleKeys(FocusNode focusNode, RawKeyEvent keyEvent){
+  KeyEventResult handleKeys(FocusNode focusNode, RawKeyEvent keyEvent){
     if(Platform.isAndroid && keyEvent.data is RawKeyEventDataAndroid && keyEvent.runtimeType == RawKeyUpEvent){
       RawKeyEventDataAndroid keyEventData = keyEvent.data;
       bool positionChanged = false;
       switch(keyEventData.keyCode){
         case KEY_RIGHT:
           this._itemIndex++;
-          if(this._itemIndex > 2){
+          if(this._itemIndex > 3){
             this._itemIndex = 0;
           }
           positionChanged = true;
@@ -59,7 +60,7 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
         case KEY_LEFT:
           this._itemIndex--;
           if(this._itemIndex < 0){
-            this._itemIndex = 2;
+            this._itemIndex = 3;
           }
           positionChanged = true;
           break;
@@ -72,10 +73,13 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
               Navigator.pushReplacementNamed(context, '/animes');
               break;
             case 2:
+              Navigator.pushReplacementNamed(context, '/favorites');
+              break;
+            case 3:
               Navigator.pushReplacementNamed(context, '/settings');
               break;
           }
-          return true;
+          return KeyEventResult.handled;
         case KEY_MENU:
         case KEY_UP:
           FocusScope.of(context).requestFocus(this.firstFocusNode);
@@ -87,7 +91,7 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
         setState(() {});
       }
     }
-    return true;
+    return KeyEventResult.handled;
   }
 
   @override
@@ -113,10 +117,18 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
               first: false,
             ),
             NavigationElement(
+              icon: FontAwesomeIcons.heart,
+              label: 'Favoriten',
+              focusNode: menuBarFocusNodes[2],
+              routeName: '/favorites',
+              onPressed: () => Navigator.pushReplacementNamed(context, '/favorites'),
+              first: false,
+            ),
+            NavigationElement(
               icon: Icons.settings,
               label: 'Einstellungen',
               routeName: '/settings',
-              focusNode: menuBarFocusNodes[2],
+              focusNode: menuBarFocusNodes[3],
               onPressed: () => Navigator.pushReplacementNamed(context, '/settings'),
               first: false,
             ),

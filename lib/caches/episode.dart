@@ -9,5 +9,7 @@ class Episode {
   int mediaId;
   List<String> playlistUrl = [];
   List<String> languages = [];
+  String available = '';
   String noteText = '';
+  bool watched = false;
 }
